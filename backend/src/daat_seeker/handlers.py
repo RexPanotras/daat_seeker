@@ -1,7 +1,7 @@
 import math
 from flask import jsonify, request
 from .database import get_db
-from .calculations import calculate_harmonic_sum, find_n_for_target, calculate_lorentz_transformation
+from .calculations import *
 
 # 获取所有学科
 def get_subjects():
@@ -27,7 +27,7 @@ def get_content(id):
         return jsonify({'error': 'Content not found'}), 404
     return jsonify(content)
 
-# 计算调和级数
+# 1.1.计算调和级数
 def calculate_harmonic_series():
     data = request.get_json()
     if not data or 'n' not in data:
@@ -47,7 +47,7 @@ def calculate_harmonic_series():
 
     return jsonify(response)
 
-# 寻找调和级数和超过目标值的最小n
+# 1.2.寻找调和级数和超过目标值的最小n
 def find_harmonic_n():
     data = request.get_json()
     if not data or 'target' not in data:
@@ -68,7 +68,7 @@ def find_harmonic_n():
 
     return jsonify(response)
 
-# 计算洛伦兹变换
+# 2.计算洛伦兹变换
 def calculate_lorentz_transformation_handler():
     data = request.get_json()
     if not data or 'x' not in data or 't' not in data or 'v' not in data:
@@ -90,6 +90,24 @@ def calculate_lorentz_transformation_handler():
         'xPrime': x_prime,
         'tPrime': t_prime,
         'gamma': gamma
+    }
+
+    return jsonify(response)
+
+# 3.计算1~n的和
+def calculate_sum_of_n_handler():
+    data = request.get_json()
+    if not data or 'n' not in data:
+        return jsonify({'error': 'Invalid request data'}), 400
+
+    n = data['n']
+    if not isinstance(n, int) or n < 0:
+        return jsonify({'error': 'n must be a non-negative integer'}), 400
+
+    sum_value = calculate_sum_of_n(n)
+
+    response = {
+        'sum': sum_value
     }
 
     return jsonify(response)

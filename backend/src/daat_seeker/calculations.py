@@ -200,3 +200,10 @@ def calculate_lorentz_transformation(x, t, v):
     t_prime = gamma * (t - (v * x) / (light_speed * light_speed))
 
     return x_prime, t_prime, gamma
+
+# 计算1~n的和
+def calculate_sum_of_n(n):
+    try:
+        return n * (n + 1) // 2
+    except OverflowError:
+        return None

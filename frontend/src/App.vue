@@ -1,10 +1,9 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import ContentList from './components/ContentList.vue'
-import ContentDetail from './components/ContentDetail.vue'
-import SubjectList from './components/SubjectList.vue'
-import HarmonicCalculator from './components/HarmonicCalculator.vue'
-import LorentzCalculator from './components/LorentzCalculator.vue'
+import { ContentList, ContentDetail, SubjectList } from './components'
+// App.vue禁止膨胀
+// 只导入需要在App.vue中直接使用的组件
+// 计算器组件在ContentDetail中使用，不需要在这里导入
 
 const subjects = ref([])
 const contents = ref([])

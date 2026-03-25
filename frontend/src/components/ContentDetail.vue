@@ -1,8 +1,6 @@
 <script setup>
 import { ref, onMounted, nextTick, onUpdated } from 'vue'
-import HarmonicCalculator from './HarmonicCalculator.vue'
-import LorentzCalculator from './LorentzCalculator.vue'
-import MarkdownRenderer from './MarkdownRenderer.vue'
+import * as Components from './index.js'
 
 const props = defineProps({
   content: {
@@ -84,16 +82,17 @@ function getTypeLabel(type) {
     <!-- 计算问题显示计算器 -->
     <div v-if="content.type === 'question'" class="calculator-section">
       <h3>🧮 计算工具</h3>
-      <HarmonicCalculator v-if="content.interface && content.interface.includes('harmonic') && !content.interface.includes('inverse')" />
-      <HarmonicCalculator v-else-if="content.interface && content.interface.includes('harmonic') && content.interface.includes('inverse')" />
-      <LorentzCalculator v-else-if="content.interface && content.interface.includes('lorentz')" />
+      <Components.HarmonicCalculator v-if="content.interface && content.interface.includes('harmonic') && !content.interface.includes('inverse')" />
+      <Components.HarmonicCalculator v-else-if="content.interface && content.interface.includes('harmonic') && content.interface.includes('inverse')" />
+      <Components.LorentzCalculator v-else-if="content.interface && content.interface.includes('lorentz')" />
+      <Components.SumOf1ToN v-else-if="content.interface && content.interface.includes('sum1ton')" />
     </div>
     
     <!-- 文章类型显示Markdown内容 -->
     <div v-else class="article-section">
       <h3>📖 详细内容</h3>
       <div class="article-content">
-        <MarkdownRenderer :content="content.description" />
+        <Components.MarkdownRenderer :content="content.description" />
       </div>
     </div>
     
