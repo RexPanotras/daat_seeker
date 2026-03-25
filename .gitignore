@@ -1,0 +1,51 @@
+# 通用忽略规则
+*.log
+*.log*
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python忽略规则
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+env.bak/
+venv.bak/
+
+# Flask忽略规则
+instance/
+.webassets-cache
+
+# Vue忽略规则
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# IDE忽略规则
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 数据库文件
+*.db
+*.sqlite3
+
+# 测试文件
+coverage/
+.pytest_cache/
+.coverage
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
