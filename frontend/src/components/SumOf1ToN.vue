@@ -3,9 +3,11 @@ import { ref, computed } from 'vue'
 
 const sum = ref(0)
 const n = ref('')
+const displayN = ref('')
 const loading = ref(false)
 const error = ref('')
 const overflow = ref(false)
+const calculated = ref(false)
 
 const API_BASE_URL = 'http://localhost:8086/api'
 
@@ -24,12 +26,15 @@ async function calculateSum() {
   overflow.value = false
 
   try {
+    // 保存当前输入的n值，用于在模板中显示
+    displayN.value = n.value
+    
     const response = await fetch(`${API_BASE_URL}/calculate/sum1ton`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ n: parseInt(n.value) })
+      body: JSON.stringify({ n: Number(n.value) })
     })
 
     if (!response.ok) {
@@ -37,8 +42,10 @@ async function calculateSum() {
     }
 
     const data = await response.json()
+    console.log('API响应:', data)
     sum.value = data.sum
     overflow.value = data.overflow || false
+    calculated.value = true
   } catch (err) {
     error.value = err.message
     console.error('计算失败:', err)
@@ -74,20 +81,20 @@ async function calculateSum() {
       {{ error }}
     </div>
 
-    <div v-if="sum !== 0 || n" class="result-section">
+    <div v-if="calculated" class="result-section">
       <h4>计算结果:</h4>
       <p v-if="overflow" class="overflow-warning">
-        注意：计算结果可能已溢出
+        溢出
       </p>
-      <p class="result">
-        1 + 2 + 3 + ... + {{ n }} = {{ sum }}
+      <p v-else class="result">
+        S({{ displayN }}) = {{ sum }}
       </p>
     </div>
 
     <div class="description-section">
       <h4>问题描述</h4>
       <p>
-        计算1到n的和是一个基本的数学问题，其公式为：1 + 2 + 3 + ... + n = n(n+1)/2。
+        计算1到n的和是一个基本的数学问题，其公式为：S(n) = 1 + 2 + 3 + ... + n = n(n+1)/2。
       </p>
       <p>
         当n增大时，这个和会无限增大，是一个发散的级数，不会收敛到任何有限值。

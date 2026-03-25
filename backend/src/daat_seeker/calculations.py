@@ -204,6 +204,13 @@ def calculate_lorentz_transformation(x, t, v):
 # 计算1~n的和
 def calculate_sum_of_n(n):
     try:
-        return n * (n + 1) // 2
+        # 检查是否可能溢出
+        if n > 10**18:
+            raise OverflowError("Value too large")
+        result = n * (n + 1) // 2
+        # 检查结果是否溢出
+        if result < 0:
+            raise OverflowError("Result overflowed")
+        return result
     except OverflowError:
         return None

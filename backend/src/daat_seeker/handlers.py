@@ -101,13 +101,24 @@ def calculate_sum_of_n_handler():
         return jsonify({'error': 'Invalid request data'}), 400
 
     n = data['n']
+    # 处理浮点数输入，特别是科学计数法表示的数值
+    if isinstance(n, float):
+        # 检查是否是整数
+        if n.is_integer():
+            n = int(n)
+        else:
+            return jsonify({'error': 'n must be a non-negative integer'}), 400
     if not isinstance(n, int) or n < 0:
         return jsonify({'error': 'n must be a non-negative integer'}), 400
 
     sum_value = calculate_sum_of_n(n)
+    overflow = sum_value is None
+    if overflow:
+        sum_value = 0
 
     response = {
-        'sum': sum_value
+        'sum': sum_value,
+        'overflow': overflow
     }
 
     return jsonify(response)
